@@ -1,0 +1,28 @@
+//用户表
+CREATE TABLE users (
+  nickname varchar(20) primary key, '昵称',
+  gender char(1) , '性别'
+  mail varchar(20), '邮箱'
+  phone varchar(11), '手机号',
+  addr varchar(30),'地址',
+  passwd varchar(20), '密码',
+  balance decimal(10,2),'余额'，
+  status char(10),'订单状态'
+ evaluatestatus char(10),'评价状态'
+ evaluate char(100),'游客评价'
+) character set utf8mb4；
+
+
+//路线表
+create table course(
+nickname varchar(20),'昵称',
+id int primary key,  'id号',
+course_name varchar(10), '路线名称',
+introduction varchar(50), '介绍',	
+price int, '费用',
+m_count int, '女性预约人数',
+w_count int,'男性预约人数',
+count int,'总人数'
+foreignkey(nickname)references users(nickname)//游客查询自己的旅游路线
+)character set utf8mb4;
+
