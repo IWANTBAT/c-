@@ -1,0 +1,31 @@
+package rqwyf;
+import java.sql.*;
+
+public class dfh {
+	public static void main(String[] args) throws Exception {
+		//1：导入氡jar包
+		String driverName = "com.mysql.jdbc.Driver";
+		String dbURL = "jdbc:mysql://127.0.0.1:3306?useSSL=false&serverTimezone=UTC";
+		String userName = "root";
+		String userPwd = "123456789";
+		try {
+			Class.forName(driverName);
+			System.out.println("succese loading Mysql Driver!");
+			
+		}
+		catch(Exception e) {
+			System.out.println("Error..");
+			e.printStackTrace();
+		}
+		try {
+			Connection dbConn = DriverManager.getConnection(dbURL,userName,userPwd);
+			System.out.println("成功");
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("失败");
+		}
+		Connection Conn = DriverManager.getConnection(dbURL, userName, userPwd);
+		Statement stat = Conn.createStatement();
+	}
+
+}
