@@ -47,7 +47,7 @@ public:
 	swap(_capacity, str._capacity);
 	}*/
 
-	//复制运算符重载
+	//赋值运算符重载
 	String& operator=(const String& str){
 		if (this != &str){
 			char* temp = new char[str._capacity + 1];
@@ -196,6 +196,47 @@ public:
 
 		_size += len;
 	}
+
+	//resize（）
+	void resize(size_t n, const char& ch = '\0'){
+		if (n>_capacity)
+			reserve(n);
+		if (n > _size)
+			memset(_str + _size, ch, n - _size);
+		_size = n;
+		_str[_size] = '\0';
+	}
+	//erase()删除
+	void erase(size_t pos, size_t len){
+		if (pos < _size){
+			if (pos + len >= _size){
+				_size = pos;
+				_str[_size] = '\0';
+			}
+			else{
+				for (int i = pos + len; i <= _size; i++){
+					_str[pos++] = _str[i];
+				}
+			}
+			_size -= len;
+		}
+	}
+
+	//find()查找
+	size_t find(const char* str){
+		char* ptr = strstr(_str, str);
+		if (ptr)
+			return ptr - _str;
+		else
+			return npos;
+	}
+	//popBack()尾删
+	void popBack(){
+		erase(_size--, 1);
+	}
+
+	//<<输出运算符重载
+	friend ostream& operator<<(ostream _cout, const String& str);
 	//析构函数
 	~String(){
 		delete[] _str;
@@ -206,7 +247,36 @@ private:
 	char* _str;
 	size_t _size;
 	size_t _capacity;
+
+	static const size_t npos;
 };
+
+const size_t String::npos = -1;
+
+ostream& operator<<(ostream _cout, const String& str){
+	//要输出_size个字符，不能遇到'\0'就结束，所以需要遍历_size次
+	for (const auto& ch : str){
+		_cout << ch;
+	}
+	return _cout;
+}
+
+//+ 拼接字符/字符串
+String operator+(const String& s, const String& s1){
+	String ret(s);
+	ret += s1.c_str();
+	return ret;
+}
+String operator+(const String& s, const char* s1){
+	String ret(s);
+	ret += s1;
+	return ret;
+}
+String operator+(const String& s, const char& s1){
+	String ret(s);
+	ret += s1;
+	return ret;
+}
 
 void test(){
 	String str = "";
