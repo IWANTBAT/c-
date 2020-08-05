@@ -7,11 +7,24 @@ using namespace std;
 template <class T>
 class Vector
 {
+	//构造函数
 	Vector()
 	:_start(nullptr)
 	, _finish(nullptr)
 	, _eos(nullptr)
 	{}
+
+	//拷贝构造
+	Vector(const Vector<T>& val)
+		:_start(new T[_capacity])
+	{
+		//深拷贝
+		for (int i = 0; i < val.size(); i++){
+			_start[i] = val[i];
+		}
+		_finish = _start + val, size();
+		_eos = _start + val.capacity();
+	}
 
 	size_t size() const{
 		return _finish - _start;
@@ -138,6 +151,23 @@ class Vector
 		}
 		++_finish;
 		return pos;
+	}
+
+	//赋值运算符重载
+	Vector<T>& operator=(Vector<T> val){//传参调用构造函数
+		Swap(v);
+		retturn *this;
+	}
+	Swap(Vector<T>& val){
+		swap(_start, val._start);
+		swap(_finish, val._finish);
+		swap(_eos, val._eos);
+	}
+	//析构函数
+	~Vector()
+	{
+		delete[] _start;
+		_start = _finish = _eos = nullptr;
 	}
 private:
 	T* _start;
